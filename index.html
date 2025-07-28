@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Telegram Gifts</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #fff;
+      padding: 20px;
+      text-align: center;
+    }
+    .gift {
+      font-size: 40px;
+      cursor: pointer;
+      margin: 15px;
+      border: 2px solid #ccc;
+      border-radius: 15px;
+      padding: 10px;
+      display: inline-block;
+    }
+    #send-btn {
+      display: none;
+      margin-top: 20px;
+      padding: 12px 25px;
+      font-size: 18px;
+      background: #2cab37;
+      color: white;
+      border: none;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+  <h2>🎁 Choose a Gift</h2>
+
+  <div id="gift-list">
+    <div class="gift">💝</div>
+    <div class="gift">🧸</div>
+    <div class="gift">🌹</div>
+    <div class="gift">🎁</div>
+    <div class="gift">🎂</div>
+  </div>
+
+  <button id="send-btn">Send Gift</button>
+
+  <script>
+    const tg = window.Telegram.WebApp;
+    tg.expand();  // maximize app window
+
+    let selectedGift = null;
+
+    document.querySelectorAll('.gift').forEach(el => {
+      el.addEventListener('click', () => {
+        selectedGift = el.textContent;
+        document.getElementById('send-btn').style.display = 'inline-block';
+      });
+    });
+
+    document.getElementById('send-btn').addEventListener('click', () => {
+      if (selectedGift) {
+        tg.sendData(JSON.stringify({ gift: selectedGift }));
+        tg.close();
+      }
+    });
+  </script>
+</body>
+</html>
