@@ -2,69 +2,137 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Telegram Gifts</title>
+  <title>Telegram Gifts Mini App</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <style>
     body {
       font-family: sans-serif;
-      background: #fff;
-      padding: 20px;
+      background-color: #ffffff;
+      margin: 0;
+      padding: 0;
+    }
+
+    .tabs {
+      display: flex;
+      justify-content: space-around;
+      border-bottom: 2px solid #ddd;
+      background-color: #f7f7f7;
+    }
+
+    .tab {
+      flex: 1;
+      padding: 12px;
       text-align: center;
-    }
-    .gift {
-      font-size: 40px;
       cursor: pointer;
-      margin: 15px;
-      border: 2px solid #ccc;
-      border-radius: 15px;
-      padding: 10px;
-      display: inline-block;
+      font-weight: bold;
     }
-    #send-btn {
+
+    .tab.active {
+      border-bottom: 3px solid #2cab37;
+      background-color: #ffffff;
+      color: #2cab37;
+    }
+
+    .section {
       display: none;
-      margin-top: 20px;
-      padding: 12px 25px;
-      font-size: 18px;
-      background: #2cab37;
-      color: white;
-      border: none;
-      border-radius: 8px;
+      padding: 15px;
+    }
+
+    .section.active {
+      display: block;
+    }
+
+    .gift-card {
+      display: inline-block;
+      position: relative;
+      margin: 10px;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid #ccc;
+      width: 160px;
+    }
+
+    .gift-card img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .star-overlay {
+      position: absolute;
+      bottom: 8px;
+      left: 8px;
+      display: flex;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.85);
+      padding: 2px 6px;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+
+    .star-overlay img {
+      width: 18px;
+      height: 18px;
+      margin-right: 4px;
+    }
+
+    h2 {
+      text-align: center;
+      margin: 15px 0;
     }
   </style>
 </head>
 <body>
-  <h2>🎁 Choose a Gift</h2>
 
-  <div id="gift-list">
-    <div class="gift">💝</div>
-    <div class="gift">🧸</div>
-    <div class="gift">🌹</div>
-    <div class="gift">🎁</div>
-    <div class="gift">🎂</div>
+  <!-- Tabs -->
+  <div class="tabs">
+    <div class="tab active" data-tab="market">Market</div>
+    <div class="tab" data-tab="inventory">Inventory</div>
   </div>
 
-  <button id="send-btn">Send Gift</button>
+  <!-- Market Section -->
+  <div id="market" class="section active">
+    <h2>🎁 Market</h2>
+    <div class="gift-card">
+      <img src="https://p-o-r-n-o.pro/static/images/gifts/ezgif.com-gif-maker_4.gif" alt="Gift 1">
+      <div class="star-overlay">
+        <img src="https://p-o-r-n-o.pro/static/images/star-icon.png" alt="Star">
+        9999999999
+      </div>
+    </div>
+
+    <div class="gift-card">
+      <img src="https://p-o-r-n-o.pro/static/images/gifts/sticker_030gifts-ezgif.com-gif-maker.gif" alt="Gift 2">
+      <div class="star-overlay">
+        <img src="https://p-o-r-n-o.pro/static/images/star-icon.png" alt="Star">
+        9999999999
+      </div>
+    </div>
+  </div>
+
+  <!-- Inventory Section -->
+  <div id="inventory" class="section">
+    <h2>📁 Inventory</h2>
+    <p style="text-align: center;">Your gifts will appear here.</p>
+  </div>
 
   <script>
-    const tg = window.Telegram.WebApp;
-    tg.expand();  // maximize app window
+    const tabs = document.querySelectorAll('.tab');
+    const sections = document.querySelectorAll('.section');
 
-    let selectedGift = null;
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => t.classList.remove('active'));
+        sections.forEach(s => s.classList.remove('active'));
 
-    document.querySelectorAll('.gift').forEach(el => {
-      el.addEventListener('click', () => {
-        selectedGift = el.textContent;
-        document.getElementById('send-btn').style.display = 'inline-block';
+        tab.classList.add('active');
+        document.getElementById(tab.dataset.tab).classList.add('active');
       });
     });
 
-    document.getElementById('send-btn').addEventListener('click', () => {
-      if (selectedGift) {
-        tg.sendData(JSON.stringify({ gift: selectedGift }));
-        tg.close();
-      }
-    });
+    Telegram.WebApp.expand();
   </script>
+
 </body>
 </html>
